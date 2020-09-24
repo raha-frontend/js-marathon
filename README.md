@@ -1,1 +1,3 @@
-# zar_marathon
+# js-marathon
+
+demo - https://shamilfrontend.github.io/js-marathon/
