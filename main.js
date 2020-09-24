@@ -42,34 +42,26 @@ secondTaskBtn.addEventListener('click', function () {
     const clearSpaces = /[^\d]/g;
     const phonePattern = /(\d{3})(\d{3})(\d{2})(\d{2})/;
 
-    let result;
-
     switch (value.charAt(0)) {
       case '+':
-        result = value.slice(2)
+        return value.slice(2)
           .replace(clearSpaces, '')
           .replace(phonePattern, '+7 ($1) $2-$3-$4');
-        break;
       case '7':
-        result = value.slice(1)
+        return value.slice(1)
           .replace(clearSpaces, '')
           .replace(phonePattern, '+7 ($1) $2-$3-$4');
-        break;
       case '8':
-        result = value.slice(1)
+        return value.slice(1)
           .replace(clearSpaces, '')
           .replace(phonePattern, '+7 ($1) $2-$3-$4');
-        break;
       case '9':
-        result = value
+        return value
           .replace(clearSpaces, '')
           .replace(phonePattern, '+7 ($1) $2-$3-$4');
-        break;
       default:
-        result = 'Введен неверный формат телефона';
+        return 'Введен неверный формат телефона';
     }
-
-    return result;
   }
 
   const value = prompt('Введите номер телефона');
