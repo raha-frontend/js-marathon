@@ -31,22 +31,20 @@ firstTaskBtn.addEventListener('click', function () {
 
 // #2
 secondTaskBtn.addEventListener('click', function () {
+  // 89859260208 -> +7 (985) 926-02-08
+  // 9859260208 -> +7 (985) 926-02-08
+  // 79859260208 -> +7 (985) 926-02-08
+  // +79859260208 -> +7 (985) 926-02-08
+
   function formattedPhone(value) {
-    if (!value) {
-      return 'Вы не ввели номер телефона';
-    }
+    if (!value) return 'Вы не ввели номер телефона';
 
-    if (value.length !== 11 || value.length !== 10 || value.length !== 9) {
-      return 'Вы ввели некорректный номер телефона';
-    }
-
-    const phoneFirstChar = value.charAt(0);
     const clearSpaces = /[^\d]/g;
     const phonePattern = /(\d{3})(\d{3})(\d{2})(\d{2})/;
 
     let result;
 
-    switch (phoneFirstChar) {
+    switch (value.charAt(0)) {
       case '+':
         result = value.slice(2)
           .replace(clearSpaces, '')
@@ -55,24 +53,26 @@ secondTaskBtn.addEventListener('click', function () {
       case '7':
         result = value.slice(1)
           .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4')
+          .replace(phonePattern, '+7 ($1) $2-$3-$4');
         break;
       case '8':
         result = value.slice(1)
           .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4')
+          .replace(phonePattern, '+7 ($1) $2-$3-$4');
         break;
       case '9':
         result = value
           .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4')
+          .replace(phonePattern, '+7 ($1) $2-$3-$4');
         break;
+      default:
+        result = 'Введен неверный формат телефона';
     }
 
     return result;
   }
 
-  const value = prompt('Введите номер телефона для форматирования');
+  const value = prompt('Введите номер телефона');
 
   alert(formattedPhone(value));
 });
