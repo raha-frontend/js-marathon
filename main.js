@@ -9,6 +9,9 @@ const $superForceStrikeBtn = document.getElementById('super-force-trike');
 const $restartGameBtn = document.getElementById('restart-game');
 const $currentStep = document.getElementById('current-step');
 
+const character = document.querySelector('.character');
+const enemy = document.querySelector('.enemy');
+
 const pokemon1 = {
   name: 'Pikachu',
   defaultHP: 100,
@@ -16,6 +19,7 @@ const pokemon1 = {
   elHP: document.getElementById('health-character'),
   elProgressbar: document.getElementById('progressbar-character'),
 };
+
 const pokemon2 = {
   name: 'Charmander',
   defaultHP: 100,
@@ -25,8 +29,8 @@ const pokemon2 = {
 };
 
 $powerStrikeBtn.addEventListener('click', function () {
-  changeHP(random(1, powerStrikeMaxValue), pokemon1);
-  changeHP(random(1, powerStrikeMaxValue), pokemon2);
+  changeHP(random(1, powerStrikeMaxValue), pokemon1, character);
+  changeHP(random(1, powerStrikeMaxValue), pokemon2, enemy);
 
   $restartGameBtn.disabled = false;
   changeStep();
@@ -34,8 +38,8 @@ $powerStrikeBtn.addEventListener('click', function () {
 });
 
 $superForceStrikeBtn.addEventListener('click', function () {
-  changeHP(random(superForceStrikeMinValue, superForceStrikeMaxValue), pokemon1);
-  changeHP(random(superForceStrikeMinValue, superForceStrikeMaxValue), pokemon2);
+  changeHP(random(superForceStrikeMinValue, superForceStrikeMaxValue), pokemon1, character);
+  changeHP(random(superForceStrikeMinValue, superForceStrikeMaxValue), pokemon2, enemy);
 
   $superForceStrikeBtn.disabled = true;
   changeStep();
@@ -51,6 +55,8 @@ $restartGameBtn.addEventListener('click', function () {
   clearStep();
   $powerStrikeBtn.disabled = false;
   $superForceStrikeBtn.disabled = true;
+  character.classList.remove('pokemon_lost');
+  enemy.classList.remove('pokemon_lost');
 });
 
 function init() {
@@ -71,10 +77,13 @@ function renderProgressbarHP(person) {
   person.elProgressbar.style.width = `${person.damageHP}%`;
 }
 
-function changeHP(count, person) {
+function changeHP(count, person, element) {
   if (person.damageHP < count) {
     person.damageHP = 0;
+
+    element.classList.add('pokemon_lost');
     alert(`Бедный ${person.name} проиграл бой!`);
+
     $powerStrikeBtn.disabled = true;
     $superForceStrikeBtn.disabled = true;
   } else {
