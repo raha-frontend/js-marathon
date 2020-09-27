@@ -1,18 +1,82 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>JS marathon</title>
-  <link rel="stylesheet" href="./style.css">
+  <title>Pokemon Fight</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+<div class="body">
+  <header>
+    <img
+      class="logo"
+      title="Reset Game"
+      src="./assets/Pokemon_logo.png"
+      alt="Pokemon"
+    >
+  </header>
+  <div class="playground">
+    <div class="pokemon character">
+      <span class="lvl">Lv. 1</span>
 
-<button class="firstTask">Запустить первое задание</button>
-<button class="secondTask">Запустить второе задание</button>
+      <img src="http://sify4321.000webhostapp.com/pikachu.png" alt="" class="sprite">
 
-<script src="./main.js"></script>
+      <div class="details">
+        <h2 class="name" id="name-character">
+          Pikachu
+        </h2>
+        <div class="hp">
+          <div class="bar">
+            <div class="health" id="progressbar-character" style="width: 100%;"></div>
+          </div>
+          <span class="text" id="health-character">100 / 100</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="control">
+      <button class="button" id="power-strike">
+        Силовой удар (от 1 до 10 урона)
+      </button>
+
+      <button class="button" id="super-force-trike" disabled>
+        Сверхсиловой удар (от 10 до 20 урона)
+      </button>
+
+      <button class="button button_restart" id="restart-game" disabled>
+        Рестарт
+      </button>
+      <div>Текущий ход: <strong id="current-step">1</strong></div>
+    </div>
+
+    <div class="pokemon enemy">
+      <span class="lvl">Lv. 1</span>
+
+      <img src="http://sify4321.000webhostapp.com/charmander.png" alt="" class="sprite">
+
+      <div class="details">
+        <h2 class="name" id="name-enemy">
+          Charmander
+        </h2>
+        <div class="hp">
+          <div class="bar">
+            <div class="health" id="progressbar-enemy" style="width: 100%;"></div>
+          </div>
+          <span class="text" id="health-enemy">100 / 100</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="catch_screen"></div>
+
+<script src="main.js"></script>
 </body>
+
 </html>

@@ -1,70 +1,111 @@
-const firstTaskBtn = document.querySelector('.firstTask');
-const secondTaskBtn = document.querySelector('.secondTask');
+const powerStrikeMaxValue = 10;
+const superForceStrikeMinValue = 11;
+const superForceStrikeMaxValue = 20;
 
-// #1
-firstTaskBtn.addEventListener('click', function () {
-  function getRow(firstRow, secondRow, value) {
-    if (value.length > 1) return 'Вы ввели больше одного символа';
+let currentStep = 1;
 
-    let firstCountValue = 0;
-    let secondCountValue = 0;
+const $powerStrikeBtn = document.getElementById('power-strike');
+const $superForceStrikeBtn = document.getElementById('super-force-trike');
+const $restartGameBtn = document.getElementById('restart-game');
+const $currentStep = document.getElementById('current-step');
 
-    for (let i = 0; i < firstRow.length; i++) {
-      if (firstRow.charAt(i) !== value) continue;
-      firstCountValue++;
-    }
+const character = document.querySelector('.character');
+const enemy = document.querySelector('.enemy');
 
-    for (let i = 0; i < secondRow.length; i++) {
-      if (secondRow.charAt(i) !== value) continue;
-      secondCountValue++;
-    }
+const pokemon1 = {
+  name: 'Pikachu',
+  defaultHP: 100,
+  damageHP: 100,
+  elHP: document.getElementById('health-character'),
+  elProgressbar: document.getElementById('progressbar-character'),
+};
 
-    return firstCountValue >= firstCountValue ? firstRow : secondRow;
-  }
+const pokemon2 = {
+  name: 'Charmander',
+  defaultHP: 100,
+  damageHP: 100,
+  elHP: document.getElementById('health-enemy'),
+  elProgressbar: document.getElementById('progressbar-enemy'),
+};
 
-  const firstRow = 'мама мыла раму';
-  const secondRow = 'собака друг человека';
-  const value = prompt('Введите букву', 'а');
+$powerStrikeBtn.addEventListener('click', function () {
+  changeHP(random(1, powerStrikeMaxValue), pokemon1, character);
+  changeHP(random(1, powerStrikeMaxValue), pokemon2, enemy);
 
-  alert(getRow(firstRow, secondRow, value));
+  $restartGameBtn.disabled = false;
+  changeStep();
+  $superForceStrikeBtn.disabled = currentStep !== 5
 });
 
-// #2
-secondTaskBtn.addEventListener('click', function () {
-  // 89859260208 -> +7 (985) 926-02-08
-  // 9859260208 -> +7 (985) 926-02-08
-  // 79859260208 -> +7 (985) 926-02-08
-  // +79859260208 -> +7 (985) 926-02-08
+$superForceStrikeBtn.addEventListener('click', function () {
+  changeHP(random(superForceStrikeMinValue, superForceStrikeMaxValue), pokemon1, character);
+  changeHP(random(superForceStrikeMinValue, superForceStrikeMaxValue), pokemon2, enemy);
 
-  function formattedPhone(value) {
-    if (!value) return 'Вы не ввели номер телефона';
+  $superForceStrikeBtn.disabled = true;
+  changeStep();
+});
 
-    const clearSpaces = /[^\d]/g;
-    const phonePattern = /(\d{3})(\d{3})(\d{2})(\d{2})/;
+$restartGameBtn.addEventListener('click', function () {
+  pokemon1.damageHP = 100;
+  pokemon2.damageHP = 100;
 
-    switch (value.charAt(0)) {
-      case '+':
-        return value.slice(2)
-          .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4');
-      case '7':
-        return value.slice(1)
-          .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4');
-      case '8':
-        return value.slice(1)
-          .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4');
-      case '9':
-        return value
-          .replace(clearSpaces, '')
-          .replace(phonePattern, '+7 ($1) $2-$3-$4');
-      default:
-        return 'Введен неверный формат телефона';
-    }
+  renderHP(pokemon1);
+  renderHP(pokemon2);
+
+  clearStep();
+  $powerStrikeBtn.disabled = false;
+  $superForceStrikeBtn.disabled = true;
+  character.classList.remove('pokemon_lost');
+  enemy.classList.remove('pokemon_lost');
+});
+
+function init() {
+  renderHP(pokemon1);
+  renderHP(pokemon2);
+}
+
+function renderHP(person) {
+  renderHPLife(person);
+  renderProgressbarHP(person);
+}
+
+function renderHPLife(person) {
+  person.elHP.innerText = `${person.damageHP} / ${person.defaultHP}`;
+}
+
+function renderProgressbarHP(person) {
+  person.elProgressbar.style.width = `${person.damageHP}%`;
+}
+
+function changeHP(count, person, element) {
+  if (person.damageHP < count) {
+    person.damageHP = 0;
+
+    element.classList.add('pokemon_lost');
+    alert(`Бедный ${person.name} проиграл бой!`);
+
+    $powerStrikeBtn.disabled = true;
+    $superForceStrikeBtn.disabled = true;
+  } else {
+    person.damageHP -= count;
   }
 
-  const value = prompt('Введите номер телефона');
+  renderHP(person);
+}
 
-  alert(formattedPhone(value));
-});
+function random(min, max) {
+  const value = min + Math.random() * (max + 1 - min);
+  return Math.floor(value);
+}
+
+function changeStep() {
+  currentStep++;
+  $currentStep.innerText = currentStep;
+}
+
+function clearStep() {
+  currentStep = 1;
+  $currentStep.innerText = '1';
+}
+
+init();
